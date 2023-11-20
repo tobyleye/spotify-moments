@@ -42,7 +42,7 @@ class SpotifyClient {
 export const generateSpotifyLoginURL = () => {
   const state = generateRandomString(16);
   const scope = "user-read-private user-read-email user-library-read";
-  const redirectUri = "http://localhost:5190";
+  const redirectUri = location.origin;
 
   const params = {
     response_type: "token",
