@@ -5,7 +5,7 @@ export default function TrackList({ list }: { list: track[] }) {
   const [playing, setPlaying] = useState<string | null>();
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  const playTrack = (trackId: string, trackPreviewURL: string, track: any) => {
+  const playTrack = (trackId: string, trackPreviewURL: string) => {
     let isCurrentlyPlaying = playing !== null && audioRef.current !== null;
     if (isCurrentlyPlaying) {
       // stop it. we can only play one track at a time.
@@ -47,9 +47,7 @@ export default function TrackList({ list }: { list: track[] }) {
               {playing && playing === track.id ? (
                 <button onClick={pauseCurrentlyPlayingTrack}>Stop</button>
               ) : (
-                <button
-                  onClick={() => playTrack(track.id, track.preview_url, track)}
-                >
+                <button onClick={() => playTrack(track.id, track.preview_url)}>
                   Play
                 </button>
               )}
