@@ -74,8 +74,14 @@ export default function LikedTracks() {
   return (
     <div>
       <div>Liked Songs by year</div>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <div style={{ width: "30%" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "flex-start",
+        }}
+      >
+        <div style={{ width: "30%", position: "sticky", top: 0 }}>
           <div>
             {years.map((year) => {
               return (
@@ -91,7 +97,7 @@ export default function LikedTracks() {
         <div key={selectedYear} style={{ width: "60%" }}>
           {selectedYear ? (
             <div>
-              <h3>Your liked songs in the year {selectedYear}</h3>
+              <h1>Your liked songs in the year {selectedYear}</h1>
               <TrackList list={likedTracksInSelectedYear ?? []} />
             </div>
           ) : null}

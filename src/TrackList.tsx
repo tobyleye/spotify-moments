@@ -6,12 +6,6 @@ export default function TrackList({ list }: { list: track[] }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const playTrack = (trackId: string, trackPreviewURL: string, track: any) => {
-    console.log("track --", track);
-
-    if (!trackPreviewURL) {
-      console.error("track with no preview url");
-      return;
-    }
     let isCurrentlyPlaying = playing !== null && audioRef.current !== null;
     if (isCurrentlyPlaying) {
       // stop it. we can only play one track at a time.
@@ -48,14 +42,30 @@ export default function TrackList({ list }: { list: track[] }) {
               return <div key={artist.id}>{artist.name}</div>;
             })}
           </div>
-          {playing && playing === track.id ? (
-            <button onClick={pauseCurrentlyPlayingTrack}>Stop</button>
+          {track.preview_url ? (
+            <div>
+              {playing && playing === track.id ? (
+                <button onClick={pauseCurrentlyPlayingTrack}>Stop</button>
+              ) : (
+                <button
+                  onClick={() => playTrack(track.id, track.preview_url, track)}
+                >
+                  Play
+                </button>
+              )}
+            </div>
           ) : (
-            <button
-              onClick={() => playTrack(track.id, track.preview_url, track)}
+            <div
+              style={{
+                fontSize: 12,
+                background: "red",
+                color: "white",
+                opacity: 0.5,
+                display: "inline-block",
+              }}
             >
-              Play
-            </button>
+              No preview
+            </div>
           )}
         </div>
       ))}

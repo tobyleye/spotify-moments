@@ -1,4 +1,22 @@
+@font-face {
+  font-family: Monument;
+  src: url("/fonts/MonumentExtended-Ultrabold.otf");
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: Monument;
+  src: url("/fonts/MonumentExtended-Regular.otf");
+  font-weight: 400;
+}
+
 body {
   background-color: black;
   color: #f2f2f2;
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Monument", sans-serif;
 }
