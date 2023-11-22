@@ -1,0 +1,18 @@
+.landing-container {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+}
+
+.button {
+  border: none;
+  outline: none;
+  height: 42px;
+  border-radius: 99px;
+  padding: 0 28px;
+  font-weight: 500;
+  font-size: 18px;
+  background-color: var(--ascent-color);
+  color: var(--primary-color);
+  cursor: pointer;
+}

@@ -1,0 +1,14 @@
+.track {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.track-cover {
+  max-width: 100px;
+  display: inline-block;
+}
+
+.track-cover img {
+  max-width: 100%;
+}

@@ -2,8 +2,8 @@ import { useEffect, useRef, useState, useMemo } from "react";
 import dayjs from "dayjs";
 import spotifyClient from "./spotifyClient";
 import TrackList from "./TrackList";
-
-type track = any;
+import { track } from "./types";
+import { useTransition, animated, useSpring } from "@react-spring/web";
 
 export default function LikedTracks() {
   const [likedTracksByYear, setLikedTracksByYear] = useState<
@@ -13,6 +13,17 @@ export default function LikedTracks() {
   const [selectedYear, setSelectedYear] = useState<string | null>(null);
   const [finishedLoading, setFinishedLoading] = useState(false);
   const savedTracks = useRef<Record<string, boolean>>({});
+
+  let ts = selectedYear ? Number(selectedYear) : null;
+  const transitions = useTransition(ts, {
+    key: ts,
+    from: { x: "100%", opacity: 0 },
+    enter: { x: "0%", opacity: 1, left: 0 },
+    leave: { x: "-100%", opacity: 0 },
+    // config: { duration: 1000 },
+    // exitBeforeEnter: true,
+  });
+
   useEffect(() => {
     const fetchLikedSongs = async (page: number = 1) => {
       try {
@@ -71,6 +82,20 @@ export default function LikedTracks() {
     ? likedTracksByYear[selectedYear] ?? []
     : null;
 
+  const styles = useSpring({
+    from: {
+      x: -20,
+    },
+    to:
+      years.length > 0
+        ? {
+            x: 0,
+          }
+        : null,
+  });
+
+  console.log({ selectedYear });
+
   return (
     <div>
       <div>Liked Songs by year</div>
@@ -82,25 +107,46 @@ export default function LikedTracks() {
         }}
       >
         <div style={{ width: "30%", position: "sticky", top: 0 }}>
-          <div>
-            {years.map((year) => {
-              return (
-                <div key={year} onClick={() => setSelectedYear(year)}>
-                  <h3>{year}</h3>
-                </div>
-              );
-            })}
-          </div>
-          {!finishedLoading ? <div>loading...</div> : null}
+          {years.length > 0 ? (
+            <animated.div style={styles}>
+              <div>
+                {years.map((year) => {
+                  return (
+                    <div key={year} onClick={() => setSelectedYear(year)}>
+                      <h3>{year}</h3>
+                    </div>
+                  );
+                })}
+              </div>
+            </animated.div>
+          ) : null}
         </div>
 
-        <div key={selectedYear} style={{ width: "60%" }}>
-          {selectedYear ? (
-            <div>
-              <h1>Your liked songs in the year {selectedYear}</h1>
-              <TrackList list={likedTracksInSelectedYear ?? []} />
-            </div>
-          ) : null}
+        {!finishedLoading ? <div>loading...</div> : null}
+
+        <div
+          style={{
+            width: "60%",
+            border: "1px solid red",
+            overflow: "hidden",
+            position: "relative",
+            minHeight: "80vh",
+          }}
+        >
+          {transitions((style) => {
+            return (
+              <div style={{ position: "absolute" }}>
+                <animated.div style={style}>
+                  <div>
+                    <div>
+                      <h1>Your liked songs in the year {selectedYear}</h1>
+                      <TrackList list={likedTracksInSelectedYear ?? []} />
+                    </div>
+                  </div>
+                </animated.div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

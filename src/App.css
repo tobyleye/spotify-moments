@@ -10,9 +10,13 @@
   font-weight: 400;
 }
 
+:root {
+  --primary-color: #265073;
+  --ascent-color: #ecf4d6;
+}
 body {
-  background-color: black;
-  color: #f2f2f2;
+  background-color: var(--primary-color);
+  color: var(--ascent-color);
 }
 
 h1,

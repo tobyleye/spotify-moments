@@ -1,6 +1,8 @@
 import { Link, useLocation } from "wouter";
 import spotifyClient, { generateSpotifyLoginURL } from "./spotifyClient";
 import { useEffect, useState } from "react";
+import { useSpring, animated } from "@react-spring/web";
+import "./landing.css";
 
 const parseQueryString = (queryString: string) => {
   const params: Record<string, string> = {};
@@ -52,6 +54,11 @@ export default function Landing({
     handleLoginCallback();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  const springs = useSpring({
+    from: { y: 20 },
+    to: { y: 0 },
+  });
+
   const handleLogin = async () => {
     const [loginRedirectUrl, state] = generateSpotifyLoginURL();
     localStorage.setItem("loginState", state);
@@ -59,21 +66,23 @@ export default function Landing({
   };
 
   return (
-    <div>
+    <div className="landing-container">
       {loading ? (
         <div>loading...</div>
       ) : (
-        <div>
+        <animated.div style={springs}>
           {user ? (
             <div>
               <Link href="/liked-tracks">
-                <button>Explore</button>
+                <button className="button">Explore</button>
               </Link>
             </div>
           ) : (
-            <button onClick={handleLogin}>Login</button>
+            <button className="button" onClick={handleLogin}>
+              Login
+            </button>
           )}
-        </div>
+        </animated.div>
       )}
     </div>
   );
