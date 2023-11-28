@@ -1,0 +1,43 @@
+.liked-tracks-container {
+  max-width: 58rem;
+  margin: auto;
+  margin-top: 4rem;
+}
+
+.year-card {
+  height: 150px;
+  width: 140px;
+  background: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 10px;
+  border-radius: 4px;
+  font-size: 25px;
+  background-color: var(--accent-color);
+  color: var(--primary-color);
+}
+
+.year-card.selected {
+  opacity: 0.25;
+}
+
+.year-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.page-title {
+  font-size: 3rem;
+  margin-bottom: 2rem;
+  line-height: 1.2;
+  max-width: 40rem;
+}
+
+@media (min-width: 840px) {
+  .page-title {
+    font-size: 4rem;
+    margin-bottom: 4rem;
+  }
+}

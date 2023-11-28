@@ -1,4 +1,4 @@
-import { Route, Router, Switch } from "wouter";
+import { Route, Router, Switch, Redirect, Link, useLocation } from "wouter";
 import Landing from "./Landing";
 import LikedTracks from "./Likedtracks";
 import { useEffect, useState } from "react";
@@ -34,26 +34,51 @@ function App() {
 
   return (
     <>
-      <div>
+      <Router>
+        <AppNav user={user} />
+
         {loading ? (
-          <div>loading..</div>
+          <div id="app-loading">loading..</div>
         ) : (
-          <Router>
-            <Switch>
-              <Route path="/">
-                <Landing user={user} setUser={setUser} />
+          <Switch>
+            <Route path="/">
+              <Landing user={user} setUser={setUser} />
+            </Route>
+            {user ? (
+              <Route path="/liked-tracks">
+                <LikedTracks />
               </Route>
-              {user ? (
-                <Route path="/liked-tracks">
-                  <LikedTracks />
-                </Route>
-              ) : null}
-            </Switch>
-          </Router>
+            ) : null}
+            <Route path="*">
+              <Redirect to="/" />
+            </Route>
+          </Switch>
         )}
-      </div>
+      </Router>
     </>
   );
 }
+
+const AppNav = ({ user }: { user: any }) => {
+  const [location] = useLocation();
+
+  let isIndexLocation = location === "/";
+
+  return (
+    <nav className="app-nav">
+      <div>
+        {isIndexLocation ? null : (
+          <Link href="/" className="home-link">
+            <span className="dot"></span>
+            Home
+          </Link>
+        )}
+      </div>
+      <div className="">
+        {user ? <button className="logout-btn">Logout</button> : null}
+      </div>
+    </nav>
+  );
+};
 
 export default App;

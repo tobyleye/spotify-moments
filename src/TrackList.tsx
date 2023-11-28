@@ -1,6 +1,46 @@
 import { useEffect, useRef, useState } from "react";
 import { track } from "./types";
 import "./TrackList.css";
+import { animated, useSpring } from "@react-spring/web";
+
+const PlayButton = ({
+  playing,
+  onPlay,
+  onStop,
+}: {
+  playing: boolean;
+  onPlay: () => void;
+  onStop: () => void;
+}) => {
+  console.log({ playing });
+
+  const styles = useSpring({
+    to: playing
+      ? {
+          clipPath: "polygon(0 0, 100% 0%, 100% 100%, 0% 100%)",
+        }
+      : {
+          clipPath: "polygon(0 0, 100% 50%, 100% 50%, 0% 100%)",
+        },
+  });
+  return (
+    <button
+      className="play-button"
+      onClick={() => {
+        if (playing) {
+          onStop();
+        } else {
+          onPlay();
+        }
+      }}
+    >
+      <animated.div
+        data-paying={playing.toString()}
+        style={styles}
+      ></animated.div>
+    </button>
+  );
+};
 
 export default function TrackList({ list }: { list: track[] }) {
   const [playing, setPlaying] = useState<string | null>();
@@ -67,38 +107,38 @@ export default function TrackList({ list }: { list: track[] }) {
               </div>
             ) : null}
             <div>
-              <h3>{track.name}</h3>
-              <div>
+              <h3 className="track-name">{track.name}</h3>
+              <div className="track-artists">
                 {track.artists.map((artist: any) => {
                   return <div key={artist.id}>{artist.name}</div>;
                 })}
               </div>
-              {track.preview_url ? (
-                <div>
-                  {playing && playing === track.id ? (
-                    <button onClick={pauseCurrentlyPlayingTrack}>Stop</button>
-                  ) : (
-                    <button
-                      onClick={() => playTrack(track.id, track.preview_url)}
-                    >
-                      Play
-                    </button>
-                  )}
-                </div>
-              ) : (
-                <div
-                  style={{
-                    fontSize: 12,
-                    background: "red",
-                    color: "white",
-                    opacity: 0.5,
-                    display: "inline-block",
-                  }}
-                >
-                  No preview
-                </div>
-              )}
+              <div>
+                {!track.preview_url ? (
+                  <div className="track-no-preview" style={{}}>
+                    No preview
+                  </div>
+                ) : null}
+              </div>
             </div>
+            {track.preview_url ? (
+              <div className="track-controls">
+                <PlayButton
+                  playing={playing && playing === track.id ? true : false}
+                  onPlay={() => playTrack(track.id, track.preview_url)}
+                  onStop={pauseCurrentlyPlayingTrack}
+                />
+                {/* {playing && playing === track.id ? (
+                  <button onClick={pauseCurrentlyPlayingTrack}>Stop</button>
+                ) : (
+                  <button
+                    onClick={() => playTrack(track.id, track.preview_url)}
+                  >
+                    Play
+                  </button>
+                )} */}
+              </div>
+            ) : null}
           </div>
         );
       })}

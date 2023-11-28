@@ -1,6 +1,7 @@
 .landing-container {
+  height: 100%;
+  width: 100%;
   display: grid;
-  min-height: 100vh;
   place-items: center;
 }
 
@@ -12,7 +13,7 @@
   padding: 0 28px;
   font-weight: 500;
   font-size: 18px;
-  background-color: var(--ascent-color);
+  background-color: var(--accent-color);
   color: var(--primary-color);
   cursor: pointer;
 }

@@ -12,3 +12,38 @@
 .track-cover img {
   max-width: 100%;
 }
+
+.track-name {
+  margin: 0;
+  margin-bottom: 4px;
+}
+
+.track-artists {
+  opacity: 0.4;
+}
+
+.track-no-preview {
+  font-size: 12px;
+  background: red;
+  color: white;
+  opacity: 0.5;
+  display: inline-block;
+}
+
+.track-controls {
+  margin-left: auto;
+}
+
+.play-button {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.play-button div {
+  width: 20px;
+  height: 20px;
+  background: var(--accent-color);
+  /* clip-path: polygon(0 0, 0% 100%, 100% 50%); */
+}

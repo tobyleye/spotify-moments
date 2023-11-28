@@ -74,7 +74,7 @@ export default function Landing({
           {user ? (
             <div>
               <Link href="/liked-tracks">
-                <button className="button">Explore</button>
+                <button className="button">Show me</button>
               </Link>
             </div>
           ) : (

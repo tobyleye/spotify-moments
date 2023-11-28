@@ -4,6 +4,7 @@ import spotifyClient from "./spotifyClient";
 import TrackList from "./TrackList";
 import { track } from "./types";
 import { useTransition, animated, useSpring } from "@react-spring/web";
+import "./LikedTracks.css";
 
 export default function LikedTracks() {
   const [likedTracksByYear, setLikedTracksByYear] = useState<
@@ -97,8 +98,8 @@ export default function LikedTracks() {
   console.log({ selectedYear });
 
   return (
-    <div>
-      <div>Liked Songs by year</div>
+    <div className="liked-tracks-container">
+      <h2 className="page-title">Liked Songs by year</h2>
       <div
         style={{
           display: "flex",
@@ -109,10 +110,17 @@ export default function LikedTracks() {
         <div style={{ width: "30%", position: "sticky", top: 0 }}>
           {years.length > 0 ? (
             <animated.div style={styles}>
-              <div>
+              <div className="year-list">
                 {years.map((year) => {
+                  let selected = year === selectedYear;
                   return (
-                    <div key={year} onClick={() => setSelectedYear(year)}>
+                    <div
+                      className={["year-card", selected ? "selected" : ""].join(
+                        " "
+                      )}
+                      key={year}
+                      onClick={() => setSelectedYear(year)}
+                    >
                       <h3>{year}</h3>
                     </div>
                   );
@@ -127,7 +135,6 @@ export default function LikedTracks() {
         <div
           style={{
             width: "60%",
-            border: "1px solid red",
             overflow: "hidden",
             position: "relative",
             minHeight: "80vh",
@@ -135,13 +142,18 @@ export default function LikedTracks() {
         >
           {transitions((style) => {
             return (
-              <div style={{ position: "absolute" }}>
+              <div
+                style={{
+                  position: "absolute",
+                  left: 0,
+                  top: 0,
+                  bottom: 0,
+                  overflow: "auto",
+                }}
+              >
                 <animated.div style={style}>
                   <div>
-                    <div>
-                      <h1>Your liked songs in the year {selectedYear}</h1>
-                      <TrackList list={likedTracksInSelectedYear ?? []} />
-                    </div>
+                    <TrackList list={likedTracksInSelectedYear ?? []} />
                   </div>
                 </animated.div>
               </div>
