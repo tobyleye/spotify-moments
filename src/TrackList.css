@@ -1,3 +1,8 @@
+.track-list {
+  display: flex;
+  flex-direction: column;
+}
+
 .track {
   display: flex;
   align-items: center;
@@ -19,7 +24,7 @@
 }
 
 .track-artists {
-  opacity: 0.4;
+  opacity: 0.77;
 }
 
 .track-no-preview {

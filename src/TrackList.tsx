@@ -95,7 +95,7 @@ export default function TrackList({ list }: { list: track[] }) {
   };
 
   return (
-    <div>
+    <div className="track-list">
       {list.map((track) => {
         let trackCover = getSmallestTrackCover(track);
 

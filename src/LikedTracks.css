@@ -1,42 +1,66 @@
 .liked-tracks-container {
   max-width: 58rem;
   margin: auto;
-  margin-top: 4rem;
+  padding-top: 4rem;
+  height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
+.liked-tracks-header {
+  margin-bottom: 3rem;
+}
+
+.back-btn {
+  background: transparent;
+  color: var(--accent-color);
+  font-size: 25px;
+  text-transform: capitalize;
+  cursor: pointer;
+  opacity: 0.8;
+  margin-top: 1rem;
+}
+
+.page-heading {
+  font-size: 3rem;
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: 1.2;
+  max-width: 40rem;
+}
+
+.page-heading .line {
+  overflow: hidden;
+}
+
+.liked-tracks-body {
+  overflow: auto;
 }
 
 .year-card {
   height: 150px;
   width: 140px;
-  background: black;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   padding: 10px;
   border-radius: 4px;
-  font-size: 25px;
   background-color: var(--accent-color);
   color: var(--primary-color);
-}
-
-.year-card.selected {
-  opacity: 0.25;
+  font-size: 25px;
+  font-weight: 700;
+  cursor: pointer;
+  user-select: none;
 }
 
 .year-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-}
-
-.page-title {
-  font-size: 3rem;
-  margin-bottom: 2rem;
-  line-height: 1.2;
-  max-width: 40rem;
+  gap: 16px;
 }
 
 @media (min-width: 840px) {
-  .page-title {
+  .page-heading {
     font-size: 4rem;
     margin-bottom: 4rem;
   }
