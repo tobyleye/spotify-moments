@@ -1,24 +1,13 @@
 .liked-tracks-container {
   max-width: 58rem;
   margin: auto;
-  padding-top: 4rem;
-  height: 100%;
-  display: grid;
-  grid-template-rows: auto 1fr;
+  margin-top: 4rem;
+  height: calc(100% - 4rem);
+  overflow: auto;
 }
 
 .liked-tracks-header {
-  margin-bottom: 3rem;
-}
-
-.back-btn {
-  background: transparent;
-  color: var(--accent-color);
-  font-size: 25px;
-  text-transform: capitalize;
-  cursor: pointer;
-  opacity: 0.8;
-  margin-top: 1rem;
+  margin-bottom: 2.5rem;
 }
 
 .page-heading {
@@ -33,8 +22,22 @@
   overflow: hidden;
 }
 
-.liked-tracks-body {
-  overflow: auto;
+.back-btn {
+  background: transparent;
+  color: var(--accent-color);
+  font-size: 25px;
+  text-transform: capitalize;
+  cursor: pointer;
+  opacity: 0.8;
+  margin-top: 1rem;
+}
+
+.back-btn-wrapper {
+  position: sticky;
+  top: 0;
+  left: 0;
+  margin-bottom: 1.4rem;
+  z-index: 5;
 }
 
 .year-card {

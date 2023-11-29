@@ -4,18 +4,19 @@ import { generateRandomString } from "./utils";
 const SPOTIFY_CLIENT_ID = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
 
 class SpotifyClient {
-  token: string | undefined;
   _httpClient: AxiosInstance;
   constructor() {
-    this.token = undefined;
     this._httpClient = axios.create({
       baseURL: "https://api.spotify.com/v1/",
     });
   }
 
   setToken = (token: string) => {
-    this.token = token;
     this._httpClient.defaults.headers.common.Authorization = `Bearer ${token}`;
+  };
+
+  clearToken = () => {
+    this._httpClient.defaults.headers.common.Authorization = "";
   };
 
   getLikedTracks = (page: number) => {

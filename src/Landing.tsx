@@ -54,9 +54,10 @@ export default function Landing({
     handleLoginCallback();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   const springs = useSpring({
-    from: { y: 20 },
-    to: { y: 0 },
+    from: { y: 20, opacity: 0 },
+    to: { y: 0, opacity: 1 },
   });
 
   const handleLogin = async () => {
@@ -74,16 +75,51 @@ export default function Landing({
           {user ? (
             <div>
               <Link href="/liked-tracks">
-                <button className="button">Show me</button>
+                <button className="discover-btn landing-btn">
+                  <Pulse />
+                  Show me
+                </button>
               </Link>
             </div>
           ) : (
-            <button className="button" onClick={handleLogin}>
+            <button className="landing-btn" onClick={handleLogin}>
               Login
             </button>
           )}
         </animated.div>
       )}
+      <footer className="credit">
+        <p>
+          A thing by{" "}
+          <a
+            target="_blank"
+            rel="noreferrer"
+            href="https://twitter.com/o__toby"
+          >
+            Tobi
+          </a>
+        </p>
+      </footer>
     </div>
   );
 }
+
+const Pulse = () => {
+  const styles = useSpring({
+    from: {
+      scale: 0.2,
+      opacity: 0,
+    },
+    to: {
+      scale: 1,
+      opacity: 0.4,
+    },
+    loop: true,
+  });
+  return (
+    <div className="pulse">
+      <div className="ring-1"></div>
+      <animated.div style={styles} className="ring-2"></animated.div>
+    </div>
+  );
+};

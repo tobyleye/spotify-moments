@@ -10,6 +10,21 @@ function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  const clearSession = () => {
+    setUser(null);
+    localStorage.removeItem("accessToken");
+    spotifyClient.clearToken();
+  };
+
+  useEffect(() => {
+    spotifyClient._httpClient.interceptors.response.use(undefined, (error) => {
+      if (error.response.status === 401) {
+        clearSession();
+      }
+      return Promise.reject(error);
+    });
+  }, []);
+
   useEffect(() => {
     const loadUser = async (accessToken: string) => {
       try {
@@ -35,7 +50,7 @@ function App() {
   return (
     <>
       <Router>
-        <AppNav user={user} />
+        <AppNav user={user} onLogout={clearSession} />
 
         {loading ? (
           <div id="app-loading">loading..</div>
@@ -49,7 +64,7 @@ function App() {
                 <LikedTracks />
               </Route>
             ) : null}
-            <Route path="*">
+            <Route>
               <Redirect to="/" />
             </Route>
           </Switch>
@@ -59,7 +74,7 @@ function App() {
   );
 }
 
-const AppNav = ({ user }: { user: any }) => {
+const AppNav = ({ user, onLogout }: { user: any; onLogout: () => void }) => {
   const [location] = useLocation();
 
   let isIndexLocation = location === "/";
@@ -75,7 +90,11 @@ const AppNav = ({ user }: { user: any }) => {
         )}
       </div>
       <div className="">
-        {user ? <button className="logout-btn">Logout</button> : null}
+        {user ? (
+          <button className="logout-btn" onClick={onLogout}>
+            Logout
+          </button>
+        ) : null}
       </div>
     </nav>
   );

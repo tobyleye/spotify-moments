@@ -3,8 +3,9 @@ import dayjs from "dayjs";
 import spotifyClient from "./spotifyClient";
 import TrackList from "./TrackList";
 import { track } from "./types";
-import { useTransition, animated } from "@react-spring/web";
+import { useTransition, animated, useSpring } from "@react-spring/web";
 import "./LikedTracks.css";
+import Spinner from "./Spinner";
 
 export default function LikedTracks() {
   const [likedTracksByYear, setLikedTracksByYear] = useState<
@@ -69,10 +70,6 @@ export default function LikedTracks() {
     [likedTracksByYear]
   );
 
-  const likedTracksInSelectedYear = selectedYear
-    ? likedTracksByYear[selectedYear] ?? []
-    : null;
-
   const bodyTransitions = useTransition(selectedYear, {
     from: { x: -50, opacity: 0 },
     enter: { x: 0, opacity: 1, left: 0 },
@@ -92,6 +89,10 @@ export default function LikedTracks() {
     },
     exitBeforeEnter: true,
   });
+
+  const getLikedTracksInYear = (year: string | number) => {
+    return year in likedTracksByYear ? likedTracksByYear[year] : [];
+  };
 
   return (
     <div className="liked-tracks-container">
@@ -125,40 +126,43 @@ export default function LikedTracks() {
             </h2>
           );
         })}
-        {selectedYear ? (
-          <button className="back-btn" onClick={() => setSelectedYear(null)}>
-            back
-          </button>
-        ) : null}
       </header>
       <div className="liked-tracks-body">
         {bodyTransitions((style, selectedYear) => {
           return selectedYear ? (
             <animated.div style={style}>
+              <div className="back-btn-wrapper">
+                <button
+                  className="back-btn"
+                  onClick={() => setSelectedYear(null)}
+                >
+                  back
+                </button>
+              </div>
               <div style={{ maxWidth: "30rem" }}>
-                <TrackList list={likedTracksInSelectedYear ?? []} />
+                <TrackList list={getLikedTracksInYear(selectedYear)} />
               </div>
             </animated.div>
           ) : (
-            <div>
+            <div style={{ display: "flex", gap: 20 }}>
               <animated.div style={style}>
-                {years.length > 0 ? (
-                  <div className="year-list">
-                    {years.map((year) => {
-                      return (
-                        <div
-                          className={["year-card"].join(" ")}
-                          key={year}
-                          onClick={() => setSelectedYear(year)}
-                        >
-                          <div>{year}</div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                ) : null}
+                <div className="year-list">
+                  {years.map((year) => {
+                    return (
+                      <AnimatedYearCard
+                        key={year}
+                        onClick={() => setSelectedYear(year)}
+                        year={year}
+                      />
+                    );
+                  })}
+                </div>
               </animated.div>
-              {!finishedLoading ? <div>loading...</div> : null}
+              {!finishedLoading ? (
+                <div style={{ alignSelf: "center" }}>
+                  <Spinner />
+                </div>
+              ) : null}
             </div>
           );
         })}
@@ -166,3 +170,30 @@ export default function LikedTracks() {
     </div>
   );
 }
+
+const AnimatedYearCard = ({
+  year,
+  onClick,
+}: {
+  year: number | string;
+  onClick: () => void;
+}) => {
+  const styles = useSpring({
+    from: { x: 20, opacity: 0 },
+    to: {
+      x: 0,
+      opacity: 1,
+    },
+  });
+
+  return (
+    <animated.div
+      style={styles}
+      className={["year-card"].join(" ")}
+      key={year}
+      onClick={onClick}
+    >
+      <div>{year}</div>
+    </animated.div>
+  );
+};

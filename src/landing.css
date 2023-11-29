@@ -5,7 +5,7 @@
   place-items: center;
 }
 
-.button {
+.landing-btn {
   border: none;
   outline: none;
   height: 42px;
@@ -16,4 +16,49 @@
   background-color: var(--accent-color);
   color: var(--primary-color);
   cursor: pointer;
+}
+
+.discover-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pulse {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+}
+
+.pulse .ring-1 {
+  width: 12px;
+  height: 12px;
+  border-radius: 99px;
+  background: var(--primary-color);
+  opacity: 0.8;
+}
+
+.pulse .ring-2 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 99px;
+  background-color: var(--primary-color);
+}
+
+.credit {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  opacity: 0.6;
+}
+
+.credit a {
+  text-decoration-line: underline;
 }
