@@ -16,7 +16,7 @@ const PlayButton = ({
     to: playing
       ? {
           clipPath: "polygon(0 0, 100% 0%, 100% 100%, 0% 100%)",
-          background: "#FE0000",
+          background: "var(--primary-color)",
         }
       : {
           clipPath: "polygon(0 0, 100% 50%, 100% 50%, 0% 100%)",
@@ -39,6 +39,67 @@ const PlayButton = ({
         style={styles}
       ></animated.div>
     </button>
+  );
+};
+
+const LazyImage = ({ src }: { src: string }) => {
+  const [show, setShow] = useState(false);
+  const [loaded, setLoaded] = useState(false);
+  const [element, setElement] = useState<HTMLDivElement | null>(null);
+
+  const styles = useSpring({
+    from: {
+      opacity: 0,
+    },
+    to: show
+      ? {
+          opacity: 1,
+        }
+      : null,
+  });
+
+  useEffect(() => {
+    let observer: IntersectionObserver;
+    let disconnected = false;
+    if (element) {
+      let options = {
+        rootMargin: "0px",
+        threshold: 1.0,
+      };
+
+      observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setShow(true);
+            observer.disconnect();
+            disconnected = true;
+          }
+        });
+      }, options);
+      observer.observe(element);
+    }
+
+    return () => {
+      if (observer && !disconnected) {
+        observer.disconnect();
+      }
+    };
+  }, [element]);
+
+  useEffect(() => {
+    if (show && src) {
+      let image = new Image();
+      image.onload = () => {
+        setLoaded(true);
+      };
+      image.src = src;
+    }
+  }, [src, show]);
+
+  return (
+    <div ref={setElement}>
+      {loaded && <animated.img style={styles} src={src} />}
+    </div>
   );
 };
 
@@ -96,22 +157,25 @@ export default function TrackList({ list }: { list: track[] }) {
 
   return (
     <div className="track-list">
-      {list.map((track) => {
+      {list.map((track, index) => {
         let trackCover = getSmallestTrackCover(track);
-
+        const trackIsPlaying = playing === track.id;
+        let trackNo = String(index + 1).padStart(2, "0");
         return (
-          <div className="track" key={track.id} style={{ marginBottom: 20 }}>
+          <div
+            className={["track", trackIsPlaying ? "is-playing" : ""].join(" ")}
+            key={track.id}
+          >
             {trackCover ? (
               <div className="track-cover">
-                <img src={trackCover} />
+                <div className="track-no">{trackNo}</div>
+                <LazyImage src={trackCover} />
               </div>
             ) : null}
             <div>
               <h3 className="track-name">{track.name}</h3>
               <div className="track-artists">
-                {track.artists.map((artist: any) => {
-                  return <div key={artist.id}>{artist.name}</div>;
-                })}
+                {track.artists.map((artist: any) => artist.name).join(", ")}
               </div>
               <div>
                 {!track.preview_url ? (

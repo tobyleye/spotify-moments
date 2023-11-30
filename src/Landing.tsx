@@ -96,7 +96,7 @@ export default function Landing({
             rel="noreferrer"
             href="https://twitter.com/o__toby"
           >
-            Tobi
+            @o.tobi
           </a>
         </p>
       </footer>

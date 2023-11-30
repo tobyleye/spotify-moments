@@ -1,30 +1,63 @@
 .track-list {
   display: flex;
   flex-direction: column;
+  gap: 24px;
 }
 
 .track {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: 1rem;
+  transition: 0.25s ease;
+}
+
+.track.is-playing {
+  background-color: var(--accent-color);
+  color: var(--primary-color);
+  padding: 8px;
+  border-radius: 3px;
 }
 
 .track-cover {
-  max-width: 100px;
+  width: 6rem;
+  height: 6rem;
   display: inline-block;
+  position: relative;
+}
+
+.track-no {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 99px;
+  display: grid;
+  place-items: center;
+  font-size: 0.875rem;
+  background-color: var(--accent-color);
+  color: var(--primary-color);
+  font-weight: 600;
+  transform: translateY(-50%);
+  z-index: 10;
 }
 
 .track-cover img {
   max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
 }
 
 .track-name {
   margin: 0;
   margin-bottom: 4px;
+  font-size: 1.2rem;
 }
 
 .track-artists {
   opacity: 0.7;
+  font-size: 0.9rem;
 }
 
 .track-no-preview {
@@ -47,8 +80,7 @@
 }
 
 .play-button div {
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
   background: var(--accent-color);
-  /* clip-path: polygon(0 0, 0% 100%, 100% 50%); */
 }
