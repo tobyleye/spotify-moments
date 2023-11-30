@@ -192,15 +192,6 @@ export default function TrackList({ list }: { list: track[] }) {
                   onPlay={() => playTrack(track.id, track.preview_url)}
                   onStop={pauseCurrentlyPlayingTrack}
                 />
-                {/* {playing && playing === track.id ? (
-                  <button onClick={pauseCurrentlyPlayingTrack}>Stop</button>
-                ) : (
-                  <button
-                    onClick={() => playTrack(track.id, track.preview_url)}
-                  >
-                    Play
-                  </button>
-                )} */}
               </div>
             ) : null}
           </div>
