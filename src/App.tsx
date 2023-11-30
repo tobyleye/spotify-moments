@@ -8,7 +8,7 @@ import "./App.css";
 
 function App() {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const clearSession = () => {
     setUser(null);
@@ -44,6 +44,8 @@ function App() {
     let accessToken = localStorage.getItem("accessToken");
     if (accessToken) {
       loadUser(accessToken);
+    } else {
+      setLoading(false);
     }
   }, []);
 
