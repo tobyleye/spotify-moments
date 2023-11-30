@@ -132,12 +132,7 @@ export default function LikedTracks() {
           return selectedYear ? (
             <animated.div style={style}>
               <div className="back-btn-wrapper">
-                <button
-                  className="back-btn"
-                  onClick={() => setSelectedYear(null)}
-                >
-                  back
-                </button>
+                <AnimatedBackButton onClick={() => setSelectedYear(null)} />
               </div>
               <div style={{ maxWidth: "30rem" }}>
                 <TrackList list={getLikedTracksInYear(selectedYear)} />
@@ -195,5 +190,37 @@ const AnimatedYearCard = ({
     >
       <div>{year}</div>
     </animated.div>
+  );
+};
+
+const AnimatedBackButton = ({ onClick }: { onClick: () => void }) => {
+  const styles = useSpring({
+    from: {
+      x: -4,
+    },
+    to: {
+      x: 2,
+    },
+    loop: true,
+  });
+  return (
+    <button className="back-btn" onClick={onClick}>
+      <animated.div style={styles}>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
+          />
+        </svg>
+      </animated.div>
+      back
+    </button>
   );
 };

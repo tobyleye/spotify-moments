@@ -12,15 +12,15 @@ const PlayButton = ({
   onPlay: () => void;
   onStop: () => void;
 }) => {
-  console.log({ playing });
-
   const styles = useSpring({
     to: playing
       ? {
           clipPath: "polygon(0 0, 100% 0%, 100% 100%, 0% 100%)",
+          background: "#FE0000",
         }
       : {
           clipPath: "polygon(0 0, 100% 50%, 100% 50%, 0% 100%)",
+          background: "var(--accent-color)",
         },
   });
   return (

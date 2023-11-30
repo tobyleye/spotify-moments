@@ -30,6 +30,14 @@
   cursor: pointer;
   opacity: 0.8;
   margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.back-btn div {
+  width: 24px;
+  display: flex;
 }
 
 .back-btn-wrapper {
